@@ -29,6 +29,11 @@ sys.path.insert(0, str(ROOT / "src"))
 from uav_survivor_detection.models import custom_yolo  # noqa: E402,F401  (registers CBAM)
 from uav_survivor_detection.inference.drone_link import DroneLink, discover, list_windows, on_drone_wifi  # noqa: E402
 from ultralytics import YOLO  # noqa: E402
+import torch  # noqa: E402
+
+# Streamlit's file watcher walks every module's __path__; torch.classes raises on that and floods the log
+# (harmless, but noisy on Streamlit Cloud). An empty path list makes the watcher skip it.
+torch.classes.__path__ = []
 
 # ============================================================================ data & models
 TAG = "final_comparison"

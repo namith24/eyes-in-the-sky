@@ -1,5 +1,5 @@
 # Eyes in the Sky - UAV survivor detection (app + research pipeline)
-# Versions are the ones the results in the report were produced with.
+# Versions are the ones the results in the report were produced with (Python 3.11).
 # CPU-only PyTorch wheels (no GPU needed; keeps Streamlit Cloud installs small)
 --extra-index-url https://download.pytorch.org/whl/cpu
 torch==2.14.0+cpu

@@ -631,9 +631,18 @@ def hero_photo_b64(width=720):
     return base64.b64encode(buf.tobytes()).decode() if ok else ""
 
 
+DEMO_LOGS = ROOT / "data" / "demo_logs"  # a few real ESP32 flight logs, shipped for the online demo
+
+
+def session_files():
+    """Flight logs from this laptop; the online copy (no logs/ folder) falls back to the shipped samples."""
+    own = sorted(LOGS.glob("drone_session_*.csv"))
+    return own if own else sorted(DEMO_LOGS.glob("drone_session_*.csv"))
+
+
 def load_sessions():
     frames = []
-    for f in sorted(LOGS.glob("drone_session_*.csv")):
+    for f in session_files():
         try:
             df = pd.read_csv(f)
         except Exception:
@@ -660,7 +669,7 @@ def notifications(limit=6):
                 n = 0
             events.append({"t": f.stat().st_mtime, "kind": "sighting", "path": f,
                            "text": f"{n} {'person' if n == 1 else 'people'} spotted"})
-    for f in LOGS.glob("drone_session_*.csv"):
+    for f in session_files():
         try:
             df = pd.read_csv(f)
         except Exception:
@@ -718,7 +727,7 @@ with h3, st.container(key="hdr_row"):
                 ("Start the laptop webcam (backup)", "act", dict(drone_mode="webcam")),
                 ("Replay the recorded flight", "act", dict(drone_mode="file")),
                 ("Switch to dark mode" if ss.theme == "light" else "Switch to light mode", "theme", None)]
-            for f in sorted(LOGS.glob("drone_session_*.csv"), reverse=True)[:12]:
+            for f in sorted(session_files(), reverse=True)[:12]:
                 stamp = f.stem.replace("drone_session_", "")
                 items.append((f"Flight {flight_label(stamp)}", "flight", stamp))
             words = q.lower().split()

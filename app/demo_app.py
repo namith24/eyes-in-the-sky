@@ -35,6 +35,38 @@ import torch  # noqa: E402
 # (harmless, but noisy on Streamlit Cloud). An empty path list makes the watcher skip it.
 torch.classes.__path__ = []
 
+
+# Small process-wide cache that survives reruns. Used instead of st.cache_resource / st.cache_data,
+# which read each function's source from disk to build a cache key: after the file is updated under a
+# running server (git push on Streamlit Cloud, an edit on the laptop) that lookup fails with
+# "tokenize.TokenError: EOF in multi-line string".
+import threading  # noqa: E402
+import types  # noqa: E402
+
+_MEMO = sys.modules.setdefault("_eyes_memo", types.ModuleType("_eyes_memo")).__dict__
+_MEMO.setdefault("store", {})
+_MEMO.setdefault("lock", threading.Lock())
+
+
+def memo(ttl=None):
+    def deco(fn):
+        def wrapper(*args, **kw):
+            key = (fn.__name__, args, tuple(sorted(kw.items())))
+            hit = _MEMO["store"].get(key)
+            if hit is not None and (ttl is None or time.time() - hit[0] < ttl):
+                return hit[1]
+            with _MEMO["lock"]:
+                hit = _MEMO["store"].get(key)
+                if hit is not None and (ttl is None or time.time() - hit[0] < ttl):
+                    return hit[1]
+                val = fn(*args, **kw)
+                _MEMO["store"][key] = (time.time(), val)
+                return val
+        wrapper.__name__ = fn.__name__
+        return wrapper
+    return deco
+
+
 # ============================================================================ data & models
 TAG = "final_comparison"
 RES_DIR = ROOT / "results" / TAG
@@ -498,7 +530,7 @@ SVG = {
 }
 
 
-@st.cache_resource
+@memo()
 def load_model(path: str):
     return YOLO(path)
 
@@ -584,7 +616,7 @@ def go(page, **state):
     ss["nav"] = page
 
 
-@st.cache_data
+@memo()
 def hero_photo_b64(width=720):
     """A real aerial test photo (JPEG, base64) used as the Story page backdrop."""
     import base64
@@ -646,7 +678,7 @@ def flight_label(stamp):
         return stamp
 
 
-@st.cache_data(ttl=8, show_spinner=False)
+@memo(ttl=8)
 def esp32_online():
     from uav_survivor_detection.inference.drone_link import tcp_reachable
     return tcp_reachable("192.168.4.1", 80, 0.25) or tcp_reachable("192.168.4.1", 81, 0.25)

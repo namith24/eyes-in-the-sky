@@ -1,0 +1,35 @@
+{
+  "rule": "max val mAP@50, latency_ms_640x480 <= 100, excluding baseline:full@480",
+  "candidates": {
+    "baseline:full@480": {
+      "val_mAP50": 0.5797,
+      "latency_ms": 35.1
+    },
+    "baseline:full@800": {
+      "val_mAP50": 0.7065,
+      "latency_ms": 65.9
+    },
+    "baseline:tiled@480": {
+      "val_mAP50": 0.6888,
+      "latency_ms": 226.7
+    },
+    "baseline:full@640": {
+      "val_mAP50": 0.6719,
+      "latency_ms": 45.2
+    },
+    "enhanced:full@480": {
+      "val_mAP50": 0.5878,
+      "latency_ms": 46.5
+    },
+    "enhanced:full@800": {
+      "val_mAP50": 0.6924,
+      "latency_ms": 104.0
+    },
+    "baseline:full@960": {
+      "val_mAP50": 0.7101,
+      "latency_ms": 84.8
+    }
+  },
+  "proposed": "baseline:full@960",
+  "both": "enhanced:full@960"
+}

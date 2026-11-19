@@ -1,0 +1,44 @@
+# Whitelist: only the app, its code, model weights and a small data sample go to GitHub.
+# (Report, paper, slides, full dataset, logs and personal settings stay on the laptop.)
+/*
+!/.gitignore
+!/.gitattributes
+!/.streamlit/
+!/app/
+!/src/
+!/configs/
+!/scripts/
+!/tests/
+!/data/
+!/results/
+!/runs/
+!/demo_output/
+!/README.md
+!/requirements.txt
+!/packages.txt
+!/setup.py
+!/pytest.ini
+!/yolo11n.pt
+!/Start Eyes in the Sky.bat
+
+/data/*
+!/data/demo_test/
+/results/*
+!/results/final_comparison/
+/runs/*
+!/runs/final_comparison/
+/runs/final_comparison/*/*
+!/runs/final_comparison/*/weights/
+/runs/final_comparison/*/weights/*
+!/runs/final_comparison/*/weights/best.pt
+/demo_output/*
+!/demo_output/test_clip.avi
+
+/app/ui_settings.json
+/app/demo_app_before_intro.py
+__pycache__/
+*.py[cod]
+*.cache
+.pytest_cache/
+/runs/final_comparison/*.json
+/src/*.egg-info/

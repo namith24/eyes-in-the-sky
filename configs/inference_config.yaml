@@ -1,0 +1,41 @@
+# Inference Mode Configuration
+# This configuration file is for real-time UAV survivor detection inference mode
+
+# Inference settings
+inference:
+  video_source: "0"  # Device index 0 for webcam, or "rtsp://...", "udp://...", or file path
+  model_checkpoint: "checkpoints/best.pt"
+  conf_threshold: 0.25  # Confidence threshold for detections [0.0-1.0]
+  iou_threshold: 0.5  # IoU threshold for non-maximum suppression [0.0-1.0]
+  img_size: 640  # Input image size (pixels)
+  device: "cpu"  # Device for inference: "cpu" or "cuda"
+  display_enabled: true
+  logging_enabled: true
+  log_output_dir: "logs"
+  max_reconnect_attempts: 5
+  reconnect_interval_seconds: 2.0
+  max_frame_buffer_seconds: 2.0
+
+# Display module settings
+display:
+  window_name: "UAV Survivor Detection"
+  bbox_enabled: true
+  bbox_thickness: 2
+  font_scale: 0.5
+  font_thickness: 1
+  quit_key: "q"
+  toggle_bbox_key: "b"
+
+# Logger settings
+logging:
+  output_dir: "logs"
+  flush_interval_seconds: 5.0
+
+# Detection engine settings
+detection_engine:
+  checkpoint_path: "checkpoints/best.pt"
+  conf_threshold: 0.25
+  iou_threshold: 0.5
+  img_size: 640
+  device: "cpu"
+  num_threads: 4  # CPU threads for inference optimization

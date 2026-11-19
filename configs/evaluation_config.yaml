@@ -1,0 +1,31 @@
+# Evaluation Configuration
+# This configuration file is for evaluating trained YOLO models on the test dataset
+
+# Evaluation settings
+evaluation:
+  # Path to trained model checkpoint (required)
+  checkpoint_path: "checkpoints/best.pt"
+  
+  # Path to test dataset - can be a YAML file or a directory (required)
+  # YAML format: points to data.yaml with 'test' or 'val' key
+  # Directory format: points to directory with 'images/' subdirectory containing test images
+  test_dataset_path: "data/processed/test"
+  
+  # Inference device: "cpu" or "cuda"
+  device: "cpu"
+  
+  # Detection thresholds
+  conf_threshold: 0.25  # Confidence threshold for detections [0.0-1.0]
+  iou_threshold: 0.5    # IoU threshold for non-maximum suppression [0.0-1.0]
+  
+  # Input image size (pixels)
+  img_size: 640
+
+# Output directory for reports and visualizations
+# Can be overridden via --output-dir CLI argument
+# Default: output/evaluation
+output_dir: "output/evaluation"
+
+# Visualization settings (optional)
+# Set to false to skip generating visualizations
+generate_visualizations: true

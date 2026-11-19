@@ -1,0 +1,121 @@
+# Ablation Study Configuration - new_dataset3 subset run
+# 4 variants (baseline, gam-only, cbam-only, gam-cbam) x 10 epochs each
+# C3k2-ARC excluded: violates <=20% parameter constraint
+
+# Shared training hyperparameters (applied to all variants)
+training:
+  model_name: "yolo11n"
+  dataset_yaml: "configs/new_dataset3_subset.yaml"
+  epochs: 10
+  batch_size: 16
+  img_size: 320
+  learning_rate: 0.01
+  random_seed: 42
+  output_dir: "runs/ablation"
+  device: "cpu"
+  workers: 2
+
+# Ablation study settings
+ablation:
+  output_dir: "results/ablation"
+  test_subset_path: "configs/new_dataset3_subset.yaml"
+  dataset_yaml: "configs/new_dataset3_subset.yaml"
+
+  variants:
+    - name: "baseline"
+      description: "YOLO11n baseline without enhancements"
+      training:
+        model_name: "yolo11n"
+        dataset_yaml: "configs/new_dataset3_subset.yaml"
+        epochs: 10
+        batch_size: 16
+        img_size: 320
+        learning_rate: 0.01
+        random_seed: 42
+        output_dir: "runs/ablation/baseline"
+        device: "cpu"
+        workers: 2
+      enhancement:
+        enable_gam: false
+        enable_cbam: false
+        enable_c3k2_arc: false
+        enable_cl_concat: false
+
+    - name: "gam-only"
+      description: "YOLO11n with Global Attention Mechanism only"
+      training:
+        model_name: "yolo11n"
+        dataset_yaml: "configs/new_dataset3_subset.yaml"
+        epochs: 10
+        batch_size: 16
+        img_size: 320
+        learning_rate: 0.01
+        random_seed: 42
+        output_dir: "runs/ablation/gam_only"
+        device: "cpu"
+        workers: 2
+      enhancement:
+        enable_gam: true
+        enable_cbam: false
+        enable_c3k2_arc: false
+        enable_cl_concat: false
+        gam_reduction: 16
+
+    - name: "cbam-only"
+      description: "YOLO11n with CBAM only"
+      training:
+        model_name: "yolo11n"
+        dataset_yaml: "configs/new_dataset3_subset.yaml"
+        epochs: 10
+        batch_size: 16
+        img_size: 320
+        learning_rate: 0.01
+        random_seed: 42
+        output_dir: "runs/ablation/cbam_only"
+        device: "cpu"
+        workers: 2
+      enhancement:
+        enable_gam: false
+        enable_cbam: true
+        enable_c3k2_arc: false
+        enable_cl_concat: false
+        cbam_reduction: 16
+
+    - name: "gam-cbam"
+      description: "YOLO11n with GAM + CBAM (full valid enhancement)"
+      training:
+        model_name: "yolo11n"
+        dataset_yaml: "configs/new_dataset3_subset.yaml"
+        epochs: 10
+        batch_size: 16
+        img_size: 320
+        learning_rate: 0.01
+        random_seed: 42
+        output_dir: "runs/ablation/gam_cbam"
+        device: "cpu"
+        workers: 2
+      enhancement:
+        enable_gam: true
+        enable_cbam: true
+        enable_c3k2_arc: false
+        enable_cl_concat: false
+        gam_reduction: 16
+        cbam_reduction: 16
+
+# Evaluation settings (shared across all variants)
+evaluation:
+  device: "cpu"
+  conf_threshold: 0.25
+  iou_threshold: 0.5
+  img_size: 320
+
+detection_engine:
+  conf_threshold: 0.25
+  iou_threshold: 0.5
+  img_size: 320
+  device: "cpu"
+  num_threads: 4
+
+logging:
+  output_dir: "logs/ablation"
+  flush_interval_seconds: 5.0

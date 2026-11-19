@@ -1,0 +1,23 @@
+# Copy this file to a mission-specific configuration and edit the values below.
+inference:
+  video_source: "0" # Camera index, RTSP URL, UDP URL, or video file path.
+  model_checkpoint: "checkpoints/best.pt"
+  conf_threshold: 0.25 # Valid range: 0.0 to 1.0.
+  iou_threshold: 0.5 # Valid range: 0.0 to 1.0.
+  img_size: 640
+  device: "cpu" # Use "cuda" only when a CUDA runtime is available.
+  display_enabled: true
+  logging_enabled: true
+  log_output_dir: "logs"
+  max_reconnect_attempts: 5
+  reconnect_interval_seconds: 2.0
+  max_frame_buffer_seconds: 2.0
+
+display:
+  window_name: "UAV Survivor Detection"
+  bbox_enabled: true
+  bbox_thickness: 2
+  font_scale: 0.5
+  font_thickness: 1
+  quit_key: "q"
+  toggle_bbox_key: "b"

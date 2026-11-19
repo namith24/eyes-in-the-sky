@@ -1,0 +1,9 @@
+# YOLO dataset configuration for new_dataset3 subset (1000 train / 300 val / 300 test)
+# Used for fast training runs - seed=42 reproducible subset
+path: D:/CAPSTONE SOFTWARE/data/datasets/new_dataset3_subset
+train: train/images
+val: val/images
+test: test/images
+
+names:
+  0: survivor

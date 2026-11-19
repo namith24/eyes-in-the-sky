@@ -1,0 +1,16 @@
+# Eyes in the Sky - UAV survivor detection (app + research pipeline)
+# Versions are the ones the results in the report were produced with.
+# CPU-only PyTorch wheels (no GPU needed; keeps Streamlit Cloud installs small)
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.14.0+cpu
+torchvision==0.29.0+cpu
+ultralytics==8.4.142
+opencv-python>=4.10
+numpy==1.26.4
+pandas==2.3.0
+pyyaml>=6.0
+streamlit==1.45.1
+altair==5.5.0
+mss>=9.0            # drone-app window / screen capture (Windows laptop only)
+pycocotools>=2.0.7  # COCO-style evaluation scripts
+matplotlib>=3.7

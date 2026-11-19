@@ -1,0 +1,20 @@
+# Training configuration for GAM+CBAM enhanced model
+training:
+  model_name: "yolo11n"
+  dataset_yaml: "configs/new_dataset3_subset.yaml"
+  epochs: 100
+  batch_size: 16
+  img_size: 640
+  learning_rate: 0.01
+  random_seed: 42
+  output_dir: "runs/new_dataset3_enhanced"
+  device: "cpu"
+  workers: 2
+
+enhancement:
+  enable_gam: true
+  enable_cbam: true
+  enable_c3k2_arc: false
+  enable_cl_concat: false
+  gam_reduction: 16
+  cbam_reduction: 16

@@ -1,0 +1,37 @@
+{
+  "settings": {
+    "epochs": 20,
+    "imgsz": 480,
+    "batch": 16,
+    "workers": 2,
+    "fraction": 1.0,
+    "tag": "final_comparison",
+    "cache": null,
+    "seed": 42,
+    "data": "new_dataset3_subset.yaml"
+  },
+  "baseline": {
+    "checkpoint": "runs\\final_comparison\\baseline\\weights\\best.pt",
+    "params": 2590035,
+    "cbam_layers": 0,
+    "precision": 0.7465,
+    "recall": 0.5557,
+    "mAP50": 0.59,
+    "mAP50_95": 0.3109,
+    "inference_ms": 30.1,
+    "fps_model_only": 33.3,
+    "train_minutes": 153.5
+  },
+  "enhanced": {
+    "checkpoint": "runs\\final_comparison\\enhanced\\weights\\best.pt",
+    "params": 2754732,
+    "cbam_layers": 4,
+    "precision": 0.7431,
+    "recall": 0.5583,
+    "mAP50": 0.5964,
+    "mAP50_95": 0.3031,
+    "inference_ms": 57.5,
+    "fps_model_only": 17.4,
+    "train_minutes": 714.6
+  }
+}

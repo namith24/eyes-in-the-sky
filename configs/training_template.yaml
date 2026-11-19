@@ -1,0 +1,40 @@
+# Training template for UAV Survivor Detection.
+# Copy this file and adjust paths and resources for a training run.
+
+dataset:
+  dataset_path: "data/C2A" # Raw images and YOLO label files.
+  output_dir: "data/C2A_processed" # Exported dataset directory.
+  train_ratio: 0.70 # Range: 0.0-1.0; ratios must sum to 1.0.
+  val_ratio: 0.20 # Range: 0.0-1.0.
+  test_ratio: 0.10 # Range: 0.0-1.0.
+  random_seed: 42 # Non-negative reproducibility seed.
+  overwrite_existing: false # Set true only when replacing an export.
+
+training:
+  model_name: "yolo11n" # Ultralytics model name or architecture.
+  dataset_yaml: "data/C2A_processed/data.yaml" # Prepared YOLO dataset YAML.
+  epochs: 100 # Must be greater than 0.
+  batch_size: 16 # Must be greater than 0.
+  img_size: 640 # Positive square input size in pixels.
+  learning_rate: 0.01 # Must be greater than 0.
+  random_seed: 42
+  output_dir: "runs/train"
+  device: "cpu" # Use "cuda" when a CUDA device is available.
+  workers: 4 # Non-negative data-loader worker count.
+
+enhancement:
+  enable_gam: false # Global Attention Mechanism.
+  enable_cbam: false # Convolutional Block Attention Module.
+  enable_c3k2_arc: false # Rotation-aware convolution.
+  enable_cl_concat: false # Cross-level feature concatenation.
+  gam_reduction: 16 # Positive channel-reduction factor.
+  cbam_reduction: 16 # Positive channel-reduction factor.
+
+# Optional evaluation settings for the trained checkpoint.
+evaluation:
+  checkpoint_path: "checkpoints/best.pt"
+  test_dataset_path: "data/C2A_processed/test"
+  device: "cpu"
+  conf_threshold: 0.25 # Range: 0.0-1.0.
+  iou_threshold: 0.50 # Range: 0.0-1.0.
+  img_size: 640

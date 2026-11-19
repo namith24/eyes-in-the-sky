@@ -1,0 +1,6 @@
+* text=auto
+*.pt binary
+*.png binary
+*.avi binary
+*.woff2 binary
+*.ico binary

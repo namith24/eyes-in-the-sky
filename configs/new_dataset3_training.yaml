@@ -1,0 +1,20 @@
+# Training configuration for the available new_dataset3 subset baseline run
+training:
+  model_name: "yolo11n"
+  dataset_yaml: "configs/new_dataset3_subset.yaml"
+  epochs: 100
+  batch_size: 16
+  img_size: 640
+  learning_rate: 0.01
+  random_seed: 42
+  output_dir: "runs/new_dataset3"
+  device: "cpu"
+  workers: 2
+
+enhancement:
+  enable_gam: false
+  enable_cbam: false
+  enable_c3k2_arc: false
+  enable_cl_concat: false
+  gam_reduction: 16
+  cbam_reduction: 16

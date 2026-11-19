@@ -1,0 +1,57 @@
+# Training Mode Configuration
+# This configuration file is for offline model training and evaluation
+
+# Dataset preparation settings
+dataset:
+  dataset_path: "data/C2A"
+  output_dir: "data/C2A_processed"
+  train_ratio: 0.7
+  val_ratio: 0.2
+  test_ratio: 0.1
+  random_seed: 42
+  overwrite_existing: false
+
+# Training pipeline settings
+training:
+  model_name: "yolo11n"
+  dataset_yaml: "data/C2A_processed/data.yaml"
+  epochs: 100
+  batch_size: 16
+  img_size: 640
+  learning_rate: 0.01
+  random_seed: 42
+  output_dir: "runs/train"
+  device: "cpu"  # Use "cuda" if GPU available
+  workers: 4
+
+# Model enhancement settings
+enhancement:
+  enable_gam: false  # Global Attention Mechanism
+  enable_cbam: false  # Convolutional Block Attention Module
+  enable_c3k2_arc: false  # Rotation-aware convolution
+  enable_cl_concat: false  # Cross-level feature concatenation
+  gam_reduction: 16
+  cbam_reduction: 16
+
+# Evaluation settings
+evaluation:
+  checkpoint_path: "checkpoints/best.pt"
+  test_dataset_path: "data/C2A_processed/test"
+  device: "cpu"
+  conf_threshold: 0.25
+  iou_threshold: 0.5
+  img_size: 640
+
+# Detection engine settings (for evaluation)
+detection_engine:
+  checkpoint_path: "checkpoints/best.pt"
+  conf_threshold: 0.25
+  iou_threshold: 0.5
+  img_size: 640
+  device: "cpu"
+  num_threads: 4
+
+# Logger settings (for training logs)
+logging:
+  output_dir: "logs"
+  flush_interval_seconds: 5.0

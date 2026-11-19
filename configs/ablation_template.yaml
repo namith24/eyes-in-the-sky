@@ -1,0 +1,57 @@
+# Ablation template for comparing baseline and enhancement variants.
+# Each variant reuses the shared training configuration below.
+
+dataset:
+  dataset_path: "data/C2A" # Raw images and YOLO label files.
+  output_dir: "data/C2A_processed"
+  train_ratio: 0.70 # Ratios must be in [0.0, 1.0] and sum to 1.0.
+  val_ratio: 0.20
+  test_ratio: 0.10
+  random_seed: 42
+  overwrite_existing: false
+
+training:
+  model_name: "yolo11n"
+  dataset_yaml: "data/C2A_processed/data.yaml"
+  epochs: 100 # Must be greater than 0.
+  batch_size: 16 # Must be greater than 0.
+  img_size: 640
+  learning_rate: 0.01 # Must be greater than 0.
+  random_seed: 42
+  output_dir: "runs/ablation"
+  device: "cpu"
+  workers: 4
+
+ablation:
+  output_dir: "results/ablation"
+  dataset_yaml: "data/C2A_processed/data.yaml"
+  test_subset_path: "data/C2A_processed/test"
+  variants:
+    - name: "baseline"
+      enhancement:
+        enable_gam: false
+        enable_cbam: false
+        enable_c3k2_arc: false
+        enable_cl_concat: false
+    - name: "gam-cbam"
+      enhancement:
+        enable_gam: true
+        enable_cbam: true
+        enable_c3k2_arc: false
+        enable_cl_concat: false
+        gam_reduction: 16 # Positive reduction factor.
+        cbam_reduction: 16 # Positive reduction factor.
+    - name: "full-enhanced"
+      enhancement:
+        enable_gam: true
+        enable_cbam: true
+        enable_c3k2_arc: true
+        enable_cl_concat: true
+        gam_reduction: 16
+        cbam_reduction: 16
+
+evaluation:
+  device: "cpu"
+  conf_threshold: 0.25 # Range: 0.0-1.0.
+  iou_threshold: 0.50 # Range: 0.0-1.0.
+  img_size: 640
